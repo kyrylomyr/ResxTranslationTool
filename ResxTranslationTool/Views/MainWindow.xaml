@@ -81,12 +81,17 @@
              Grid.Column="2"
              VerticalContentAlignment="Center"
              Background="LightGray"
-             IsReadOnly="True" />
+             IsReadOnly="True"
+             Text="{Binding TranslationFileName}" />
     <StackPanel Grid.Row="4"
                 Grid.Column="4"
                 Orientation="Horizontal">
-      <Button Padding="8,3">Open</Button>
-      <Button Margin="2,0,0,0" Padding="8,3">Save</Button>
+      <Button Command="{Binding OpenTranslationFileCommand}" Padding="8,3">Open</Button>
+      <Button Margin="2,0,0,0"
+              Command="{Binding SaveTranslationFileCommand}"
+              Padding="8,3">
+        Save
+      </Button>
     </StackPanel>
 
     <!--  Grid  -->
