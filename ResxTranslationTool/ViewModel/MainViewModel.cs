@@ -1,23 +1,34 @@
-using System.Windows;
 using System.Windows.Input;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 
 namespace ResxTranslationTool.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
         public MainViewModel()
         {
-            ExitCommand = new RelayCommand(() =>
-                                           {
-                                               Application.Current.Shutdown();
-                                           });
+            // OpenSolutionFileCommand = new RelayCommand(onOpenSolutionFileCommand);
         }
 
-        public ICommand ExitCommand { get; private set; }
+        public ICommand OpenSolutionFileCommand { get; private set; }
+
+        public string SolutionFileName { get; set; }
+
+        private void onOpenSolutionFileCommand()
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog
+                         {
+                             DefaultExt = ".sln",
+                             Filter = "Visual Studio Solution File (.sln)|*.sln",
+                             CheckFileExists = true
+                         };
+
+            if (dialog.ShowDialog() == true)
+            {
+                SolutionFileName = dialog.FileName;
+            }
+        }
     }
 }
