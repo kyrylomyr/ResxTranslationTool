@@ -34,14 +34,20 @@
     </TextBlock>
     <TextBox Grid.Row="0"
              Grid.Column="2"
+             VerticalContentAlignment="Center"
              Background="LightGray"
-             IsReadOnly="True" />
+             IsReadOnly="True"
+             Text="{Binding SolutionFileName}" />
     <StackPanel Grid.Row="0"
                 Grid.Column="4"
                 Orientation="Horizontal">
       <Button Command="{Binding OpenSolutionFileCommand}" Padding="8,3">...</Button>
-      <Button Margin="2,0" Padding="8,3">Scan</Button>
-      <Button Padding="8,3">Update</Button>
+      <Button Margin="2,0"
+              Command="{Binding ScanSolutionCommand}"
+              Padding="8,3">
+        Scan
+      </Button>
+      <Button Command="{Binding UpdateSolutionCommand}" Padding="8,3">Update</Button>
     </StackPanel>
 
     <!--  Translation file  -->
@@ -52,6 +58,7 @@
     </TextBlock>
     <TextBox Grid.Row="2"
              Grid.Column="2"
+             VerticalContentAlignment="Center"
              Background="LightGray"
              IsReadOnly="True" />
     <StackPanel Grid.Row="2"
