@@ -148,10 +148,43 @@ namespace ResxTranslationTool.ViewModels
                 return;
             }
 
-            if (string.IsNullOrEmpty(ResourceFileMask))
-                ResourceFileMask = DEFAULT_RESOURCE_FILE_MASK;
-
             var solutionPath = Path.GetDirectoryName(SolutionFileName);
+            if (string.IsNullOrEmpty(solutionPath))
+                throw new ApplicationException("The solution path is empty or null.");
+
+            var translationGroups =
+                Translations.Where(x => !string.IsNullOrEmpty(x.TranslatedText)).GroupBy(x => x.FileName);
+
+            foreach (var translationGroup in translationGroups)
+            {
+                var fileName = Path.Combine(solutionPath, translationGroup.Key);
+
+                // Read all existing resources.
+                Dictionary<string, object> allEntries;
+                using (var resx = new ResXResourceReader(fileName))
+                {
+                    resx.UseResXDataNodes = true;
+                    allEntries = resx.Cast<DictionaryEntry>().ToDictionary(x => (string)x.Key, x => x.Value);
+                }
+
+                // Update resources with translated texts.
+                foreach (var translation in translationGroup)
+                {
+                    allEntries[translation.Id] = translation.TranslatedText;
+                }
+
+                // Save all resource entries.
+                using (var resx = new ResXResourceWriter(fileName))
+                {
+                    foreach (var entry in allEntries)
+                    {
+                        resx.AddResource(entry.Key, entry.Value);
+                    }
+                }
+            }
+
+            MessageBox.Show(
+                "Solution resources updated successfully.", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void saveTranslationFile()
