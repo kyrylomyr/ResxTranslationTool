@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace ResxTranslationTool.ViewModel
+namespace ResxTranslationTool.ViewModels
 {
     public class MainViewModel
     {

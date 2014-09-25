@@ -1,4 +1,4 @@
-﻿namespace ResxTranslationTool
+﻿namespace ResxTranslationTool.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
