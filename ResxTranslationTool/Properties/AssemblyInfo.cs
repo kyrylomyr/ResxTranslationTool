@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ResxTranslationTool")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A tool for quick and easy manual translation of strings in ResX files from all solution projects.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Kirill Miroshnichenko")]
 [assembly: AssemblyProduct("ResxTranslationTool")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCopyright("Copyright © Kirill Miroshnichenko 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

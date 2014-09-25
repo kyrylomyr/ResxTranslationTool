@@ -9,7 +9,7 @@ namespace ResxTranslationTool.ViewModels
         /// </summary>
         public MainViewModel()
         {
-            // OpenSolutionFileCommand = new RelayCommand(onOpenSolutionFileCommand);
+            // OpenSolutionFileCommand = new DelegateCommand(onOpenSolutionFileCommand);
         }
 
         public ICommand OpenSolutionFileCommand { get; private set; }
