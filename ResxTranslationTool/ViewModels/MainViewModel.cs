@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
@@ -14,8 +15,11 @@ namespace ResxTranslationTool.ViewModels
 {
     public class MainViewModel : BindableBase
     {
+        private const string DEFAULT_RESOURCE_FILE_MASK = "*.resx";
+
         private string _solutionFileName;
-        private List<Translation> _translations;
+        private ObservableCollection<Translation> _translations;
+        private string _resourceFileMask;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.
@@ -25,6 +29,9 @@ namespace ResxTranslationTool.ViewModels
             OpenSolutionFileCommand = new DelegateCommand(openSolutionFileCommand);
             ScanSolutionCommand = new DelegateCommand(scanSolution);
             UpdateSolutionCommand = new DelegateCommand(updateSolution);
+
+            ResourceFileMask = "*.da.resx";
+            Translations = new ObservableCollection<Translation>();
         }
 
         public ICommand OpenSolutionFileCommand { get; private set; }
@@ -39,7 +46,13 @@ namespace ResxTranslationTool.ViewModels
             set { SetProperty(ref _solutionFileName, value); }
         }
 
-        public List<Translation> Translations
+        public string ResourceFileMask
+        {
+            get { return _resourceFileMask; }
+            set { SetProperty(ref _resourceFileMask, value); }
+        }
+
+        public ObservableCollection<Translation> Translations
         {
             get { return _translations; }
             set { SetProperty(ref _translations, value); }
@@ -75,13 +88,16 @@ namespace ResxTranslationTool.ViewModels
                 return;
             }
 
+            if (string.IsNullOrEmpty(ResourceFileMask))
+                ResourceFileMask = DEFAULT_RESOURCE_FILE_MASK;
+
             var solutionPath = Path.GetDirectoryName(SolutionFileName);
             if (string.IsNullOrEmpty(solutionPath))
                 throw new ApplicationException("The solution path is empty or null.");
 
             var translations = new List<Translation>();
 
-            var files = Directory.GetFiles(solutionPath, "*.resx", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(solutionPath, ResourceFileMask, SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 // Get relative path.
@@ -107,7 +123,7 @@ namespace ResxTranslationTool.ViewModels
                 }
             }
 
-            Translations = translations;
+            Translations = new ObservableCollection<Translation>(translations);
         }
 
         private void updateSolution()
@@ -116,6 +132,9 @@ namespace ResxTranslationTool.ViewModels
             {
                 return;
             }
+
+            if (string.IsNullOrEmpty(ResourceFileMask))
+                ResourceFileMask = DEFAULT_RESOURCE_FILE_MASK;
 
             var solutionPath = Path.GetDirectoryName(SolutionFileName);
         }
