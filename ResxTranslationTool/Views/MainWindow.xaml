@@ -9,7 +9,7 @@
         Height="350"
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance vm:MainViewModel}"
-        mc:Ignorable="d">
+        mc:Ignorable="d" Icon="/ResxTranslationTool;component/App.ico">
   <Grid Margin="10">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
