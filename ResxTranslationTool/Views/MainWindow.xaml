@@ -93,7 +93,28 @@
     <DataGrid Grid.Row="6"
               Grid.Column="0"
               Grid.ColumnSpan="5"
-              ItemsSource="{Binding Translations}" />
+              AlternatingRowBackground="GhostWhite"
+              AutoGenerateColumns="False"
+              HeadersVisibility="Column"
+              HorizontalGridLinesBrush="Gainsboro"
+              ItemsSource="{Binding Translations}"
+              VerticalGridLinesBrush="Gainsboro">
+      <DataGrid.CellStyle>
+        <Style TargetType="DataGridCell">
+          <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+              <Setter Property="BorderThickness" Value="0" />
+            </Trigger>
+          </Style.Triggers>
+        </Style>
+      </DataGrid.CellStyle>
+      <DataGrid.Columns>
+        <DataGridTextColumn Binding="{Binding OriginalText}"
+                            Header="Original Text"
+                            IsReadOnly="True" />
+        <DataGridTextColumn Binding="{Binding TranslatedText}" Header="Translated Text" />
+      </DataGrid.Columns>
+    </DataGrid>
 
     <!--  Summary  -->
     <Grid Grid.Row="8"
