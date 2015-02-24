@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using System.Xml.Serialization;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Win32;
@@ -87,6 +84,7 @@ namespace ResxTranslationTool.ViewModels
 
         private bool? openSolutionFile()
         {
+            // TODO: Refactor to not use OpenFileDialog inside view model.
             var dialog = new OpenFileDialog
                          {
                              Filter = "Visual Studio Solution File|*.sln",
@@ -123,6 +121,7 @@ namespace ResxTranslationTool.ViewModels
             var service = new ResxService(getSolutionPath(), ResourceFileMask);
             service.UpdateResources(Translations);
 
+            // TODO: Refactor to not use MessageBox inside view model.
             MessageBox.Show(
                 "Solution resources updated successfully.", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -132,6 +131,7 @@ namespace ResxTranslationTool.ViewModels
             if (string.IsNullOrEmpty(TranslationFileName))
             {
                 // Select file name.
+                // TODO: Refactor to not use SaveFileDialog inside view model.
                 var dialog = new SaveFileDialog
                              {
                                  Filter = "XML File|*.xml",
@@ -150,12 +150,14 @@ namespace ResxTranslationTool.ViewModels
             var service = new TranslationFileService(TranslationFileName);
             service.Save(Translations);
 
+            // TODO: Refactor to not use MessageBox inside view model.
             MessageBox.Show("File saved successfully.", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void openTranslationFile()
         {
             // Select file name.
+            // TODO: Refactor to not use OpenFileDialog inside view model.
             var dialog = new OpenFileDialog
                          {
                              Filter = "XML File|*.xml",
@@ -175,6 +177,7 @@ namespace ResxTranslationTool.ViewModels
             }
             catch (InvalidOperationException)
             {
+                // TODO: Refactor to not use MessageBox inside view model.
                 MessageBox.Show(
                     "The translation file has incorrect data.",
                     "Open error",
