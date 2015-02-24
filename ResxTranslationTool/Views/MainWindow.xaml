@@ -66,22 +66,63 @@
                       Grid.ColumnSpan="3"
                       HorizontalAlignment="Center"
                       Orientation="Horizontal">
-            <Button Width="80"
-                    Command="{Binding OpenTranslationFileCommand}"
-                    Padding="8,3">
-              Open
-            </Button>
-            <Button Width="80"
-                    Margin="2,0,0,0"
+            <Button Command="{Binding OpenTranslationFileCommand}" Padding="30,3">Open</Button>
+            <Button Margin="2,0,0,0"
                     Command="{Binding SaveTranslationFileCommand}"
-                    Padding="8,3">
+                    Padding="30,3">
               Save
             </Button>
           </StackPanel>
 
         </Grid>
       </TabItem>
-      <TabItem Header="Synchronize" />
+      <TabItem Header="Synchronize">
+        <Grid Margin="5">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+
+          <!--  Solution file  -->
+          <TextBlock Grid.Row="0"
+                     Grid.Column="0"
+                     VerticalAlignment="Center">
+            Solution file:
+          </TextBlock>
+          <TextBox Grid.Row="0"
+                   Grid.Column="2"
+                   VerticalContentAlignment="Center"
+                   Background="LightGray"
+                   IsReadOnly="True"
+                   Text="{Binding SolutionFileName}" />
+
+          <Button Grid.Row="0"
+                  Grid.Column="4"
+                  HorizontalAlignment="Left"
+                  Command="{Binding OpenSolutionFileCommand}"
+                  Padding="8,3">
+            ...
+          </Button>
+
+          <!--  Synchronize Solution Resources  -->
+          <Button Grid.Row="2"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="5"
+                  HorizontalAlignment="Center"
+                  Command="{Binding ScanSolutionCommand}"
+                  Padding="30,3">
+            Synchronize Solution Resources
+          </Button>
+        </Grid>
+      </TabItem>
       <TabItem HorizontalContentAlignment="Stretch" Header="Scan and export">
         <Grid Margin="5">
           <Grid.ColumnDefinitions>
@@ -152,10 +193,9 @@
           <Button Grid.Row="4"
                   Grid.Column="0"
                   Grid.ColumnSpan="9"
-                  Width="140"
                   HorizontalAlignment="Center"
                   Command="{Binding ScanSolutionCommand}"
-                  Padding="8,3">
+                  Padding="30,3">
             Scan Solution
           </Button>
 
@@ -246,10 +286,9 @@
           <Button Grid.Row="4"
                   Grid.Column="0"
                   Grid.ColumnSpan="5"
-                  Width="140"
                   HorizontalAlignment="Center"
                   Command="{Binding UpdateSolutionCommand}"
-                  Padding="8,3">
+                  Padding="30,3">
             Update Solution
           </Button>
 

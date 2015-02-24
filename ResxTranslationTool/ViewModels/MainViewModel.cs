@@ -31,6 +31,7 @@ namespace ResxTranslationTool.ViewModels
             UpdateSolutionCommand = new DelegateCommand(updateSolution);
             SaveTranslationFileCommand = new DelegateCommand(saveTranslationFile);
             OpenTranslationFileCommand = new DelegateCommand(openTranslationFile);
+            SyncSolutionResourcesCommand = new DelegateCommand(syncSolutionResources);
 
             ResourceFileMask = "*.de.resx";
             Tag = ResxService.DEFAULT_TAG;
@@ -46,6 +47,8 @@ namespace ResxTranslationTool.ViewModels
         public ICommand SaveTranslationFileCommand { get; private set; }
 
         public ICommand OpenTranslationFileCommand { get; private set; }
+
+        public ICommand SyncSolutionResourcesCommand { get; private set; }
 
         public string SolutionFileName
         {
@@ -185,6 +188,11 @@ namespace ResxTranslationTool.ViewModels
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
+        }
+
+        private void syncSolutionResources()
+        {
+
         }
 
         private string getSolutionPath()
