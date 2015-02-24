@@ -1,17 +1,15 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
-using System.Resources;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Serialization;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
+using Microsoft.Win32;
 using ResxTranslationTool.Models;
+using ResxTranslationTool.Services;
 
 namespace ResxTranslationTool.ViewModels
 {
@@ -23,6 +21,7 @@ namespace ResxTranslationTool.ViewModels
         private ObservableCollection<Translation> _translations;
         private string _resourceFileMask;
         private string _translationFileName;
+        private string _tag;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.
@@ -36,6 +35,7 @@ namespace ResxTranslationTool.ViewModels
             OpenTranslationFileCommand = new DelegateCommand(openTranslationFile);
 
             ResourceFileMask = "*.de.resx";
+            Tag = ResxService.DEFAULT_TAG;
             Translations = new ObservableCollection<Translation>();
         }
 
@@ -67,6 +67,12 @@ namespace ResxTranslationTool.ViewModels
             set { SetProperty(ref _translationFileName, value); }
         }
 
+        public string Tag
+        {
+            get { return _tag; }
+            set { SetProperty(ref _tag, value); }
+        }
+
         public ObservableCollection<Translation> Translations
         {
             get { return _translations; }
@@ -80,7 +86,7 @@ namespace ResxTranslationTool.ViewModels
 
         private bool? openSolutionFile()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog
+            var dialog = new OpenFileDialog
                          {
                              Filter = "Visual Studio Solution File|*.sln",
                              CheckFileExists = true
@@ -98,91 +104,23 @@ namespace ResxTranslationTool.ViewModels
         private void scanSolution()
         {
             if (string.IsNullOrEmpty(SolutionFileName) && openSolutionFile() != true)
-            {
                 return;
-            }
 
             if (string.IsNullOrEmpty(ResourceFileMask))
                 ResourceFileMask = DEFAULT_RESOURCE_FILE_MASK;
 
-            var solutionPath = Path.GetDirectoryName(SolutionFileName);
-            if (string.IsNullOrEmpty(solutionPath))
-                throw new ApplicationException("The solution path is empty or null.");
+            var service = new ResxService(getSolutionPath(), ResourceFileMask);
 
-            var translations = new List<Translation>();
-
-            var files = Directory.GetFiles(solutionPath, ResourceFileMask, SearchOption.AllDirectories);
-            foreach (var file in files)
-            {
-                // Get relative path.
-                var relativeFileName = Path.GetFullPath(file).Substring(solutionPath.Length + 1);
-
-                using (var resx = new ResXResourceReader(file))
-                {
-                    resx.UseResXDataNodes = true;
-
-                    translations.AddRange(
-                        from DictionaryEntry entry in resx
-                        let node = (ResXDataNode)entry.Value
-                        where node.FileRef == null &&
-                              node.GetValueTypeName((ITypeResolutionService)null) ==
-                              typeof(string).AssemblyQualifiedName
-                        let value = (string)node.GetValue((ITypeResolutionService)null)
-                        where value.IndexOf("[translate me]", StringComparison.OrdinalIgnoreCase) >= 0
-                        select new Translation
-                               {
-                                   Id = (string)entry.Key,
-                                   FileName = relativeFileName,
-                                   OriginalText = value,
-                                   Comment = node.Comment
-                               });
-                }
-            }
-
-            Translations = new ObservableCollection<Translation>(translations);
+            Translations = new ObservableCollection<Translation>(service.GetTaggedResources(Tag));
         }
 
         private void updateSolution()
         {
             if (string.IsNullOrEmpty(SolutionFileName) && openSolutionFile() != true)
-            {
                 return;
-            }
 
-            var solutionPath = Path.GetDirectoryName(SolutionFileName);
-            if (string.IsNullOrEmpty(solutionPath))
-                throw new ApplicationException("The solution path is empty or null.");
-
-            var translationGroups =
-                Translations.Where(x => !string.IsNullOrEmpty(x.TranslatedText)).GroupBy(x => x.FileName);
-
-            foreach (var translationGroup in translationGroups)
-            {
-                var fileName = Path.Combine(solutionPath, translationGroup.Key);
-
-                // Read all existing resources.
-                Dictionary<string, object> allEntries;
-                using (var resx = new ResXResourceReader(fileName))
-                {
-                    resx.UseResXDataNodes = true;
-                    allEntries = resx.Cast<DictionaryEntry>().ToDictionary(x => (string)x.Key, x => x.Value);
-                }
-
-                // Update resources with translated texts.
-                foreach (var translation in translationGroup)
-                {
-                    allEntries[translation.Id] = translation.TranslatedText;
-                }
-
-                // Save all resource entries.
-                using (var resx = new ResXResourceWriter(fileName))
-                {
-                    foreach (var entry in allEntries)
-                    {
-                        resx.AddResource(entry.Key, entry.Value);
-                    }
-                }
-            }
+            var service = new ResxService(getSolutionPath(), ResourceFileMask);
+            service.UpdateResources(Translations);
 
             MessageBox.Show(
                 "Solution resources updated successfully.", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -193,7 +131,7 @@ namespace ResxTranslationTool.ViewModels
             if (string.IsNullOrEmpty(TranslationFileName))
             {
                 // Select file name.
-                var dialog = new Microsoft.Win32.SaveFileDialog
+                var dialog = new SaveFileDialog
                              {
                                  Filter = "XML File|*.xml",
                                  OverwritePrompt = true,
@@ -221,7 +159,7 @@ namespace ResxTranslationTool.ViewModels
         private void openTranslationFile()
         {
             // Select file name.
-            var dialog = new Microsoft.Win32.OpenFileDialog
+            var dialog = new OpenFileDialog
                          {
                              Filter = "XML File|*.xml",
                              CheckFileExists = true
@@ -250,6 +188,15 @@ namespace ResxTranslationTool.ViewModels
                         MessageBoxImage.Error);
                 }
             }
+        }
+
+        private string getSolutionPath()
+        {
+            var solutionPath = Path.GetDirectoryName(SolutionFileName);
+            if (string.IsNullOrEmpty(solutionPath))
+                throw new ApplicationException("The solution path is empty or null.");
+
+            return solutionPath;
         }
     }
 }
