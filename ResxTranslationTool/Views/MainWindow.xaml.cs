@@ -1,4 +1,6 @@
-﻿using ResxTranslationTool.ViewModels;
+﻿using System.Diagnostics;
+using System.Windows.Navigation;
+using ResxTranslationTool.ViewModels;
 
 namespace ResxTranslationTool.Views
 {
@@ -12,6 +14,12 @@ namespace ResxTranslationTool.Views
             InitializeComponent();
 
             DataContext = new MainViewModel();
+        }
+
+        private void homePageRequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(e.Uri.AbsoluteUri);
+            e.Handled = true;
         }
     }
 }

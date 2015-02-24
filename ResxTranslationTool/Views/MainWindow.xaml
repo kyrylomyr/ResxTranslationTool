@@ -279,14 +279,27 @@
                             Header="Original Text"
                             IsReadOnly="True" />
         <DataGridTextColumn Binding="{Binding TranslatedText}" Header="Translated Text" />
+        <DataGridTextColumn Binding="{Binding Comment}"
+                            Header="Comment"
+                            IsReadOnly="True" />
       </DataGrid.Columns>
     </DataGrid>
 
     <!--  Summary  -->
     <Grid Grid.Row="4">
-      <TextBlock>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0">
         <Run Text="Total entries:" />
         <Run Text="{Binding Translations.Count, Mode=OneWay}" />
+      </TextBlock>
+      <TextBlock Grid.Column="2">
+        <Hyperlink NavigateUri="https://github.com/kirmir/ResX-Translation-Tool" RequestNavigate="homePageRequestNavigate">
+          <TextBlock>Home page</TextBlock>
+        </Hyperlink>
       </TextBlock>
     </Grid>
   </Grid>
