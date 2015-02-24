@@ -16,6 +16,7 @@
     <Style TargetType="{x:Type TextBox}">
       <Style.Setters>
         <Setter Property="Height" Value="24" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
       </Style.Setters>
     </Style>
     <Style TargetType="{x:Type Button}">
@@ -55,8 +56,7 @@
           </TextBlock>
           <TextBox Grid.Row="0"
                    Grid.Column="2"
-                   VerticalContentAlignment="Center"
-                   Background="LightGray"
+                   Background="Gainsboro"
                    IsReadOnly="True"
                    Text="{Binding TranslationFileName}" />
 
@@ -99,8 +99,7 @@
           </TextBlock>
           <TextBox Grid.Row="0"
                    Grid.Column="2"
-                   VerticalContentAlignment="Center"
-                   Background="LightGray"
+                   Background="Gainsboro"
                    IsReadOnly="True"
                    Text="{Binding SolutionFileName}" />
 
@@ -155,8 +154,7 @@
           <TextBox Grid.Row="0"
                    Grid.Column="2"
                    Grid.ColumnSpan="5"
-                   VerticalContentAlignment="Center"
-                   Background="LightGray"
+                   Background="Gainsboro"
                    IsReadOnly="True"
                    Text="{Binding SolutionFileName}" />
 
@@ -176,7 +174,6 @@
           </TextBlock>
           <TextBox Grid.Row="2"
                    Grid.Column="2"
-                   VerticalContentAlignment="Center"
                    Text="{Binding ResourceFileMask}" />
 
           <TextBlock Grid.Row="2"
@@ -186,7 +183,6 @@
           </TextBlock>
           <TextBox Grid.Row="2"
                    Grid.Column="6"
-                   VerticalContentAlignment="Center"
                    Text="{Binding Tag}" />
 
           <!--  Scan  -->
@@ -208,8 +204,7 @@
           <TextBox Grid.Row="6"
                    Grid.Column="2"
                    Grid.ColumnSpan="5"
-                   VerticalContentAlignment="Center"
-                   Background="LightGray"
+                   Background="Gainsboro"
                    IsReadOnly="True"
                    Text="{Binding TranslationFileName}" />
 
@@ -248,8 +243,7 @@
           </TextBlock>
           <TextBox Grid.Row="0"
                    Grid.Column="2"
-                   VerticalContentAlignment="Center"
-                   Background="LightGray"
+                   Background="Gainsboro"
                    IsReadOnly="True"
                    Text="{Binding SolutionFileName}" />
 
@@ -269,8 +263,7 @@
           </TextBlock>
           <TextBox Grid.Row="2"
                    Grid.Column="2"
-                   VerticalContentAlignment="Center"
-                   Background="LightGray"
+                   Background="Gainsboro"
                    IsReadOnly="True"
                    Text="{Binding TranslationFileName}" />
 
@@ -300,15 +293,25 @@
     <DataGrid Grid.Row="2"
               AlternatingRowBackground="GhostWhite"
               AutoGenerateColumns="False"
+              CanUserAddRows="False"
               HeadersVisibility="Column"
               HorizontalGridLinesBrush="Gainsboro"
               ItemsSource="{Binding Translations}"
               VerticalGridLinesBrush="Gainsboro">
+      <DataGrid.RowStyle>
+        <Style TargetType="DataGridRow">
+          <EventSetter Event="MouseDoubleClick" Handler="TranslationRow_DoubleClick" />
+        </Style>
+      </DataGrid.RowStyle>
       <DataGrid.CellStyle>
         <Style TargetType="DataGridCell">
           <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
               <Setter Property="BorderThickness" Value="0" />
+            </Trigger>
+            <Trigger Property="IsReadOnly" Value="True">
+              <Setter Property="Background" Value="Gainsboro" />
+              <Setter Property="Foreground" Value="Black" />
             </Trigger>
           </Style.Triggers>
         </Style>

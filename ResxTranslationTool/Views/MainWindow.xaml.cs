@@ -1,5 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Navigation;
+using ResxTranslationTool.Models;
 using ResxTranslationTool.ViewModels;
 
 namespace ResxTranslationTool.Views
@@ -20,6 +23,17 @@ namespace ResxTranslationTool.Views
         {
             Process.Start(e.Uri.AbsoluteUri);
             e.Handled = true;
+        }
+
+        private void TranslationRow_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var row = (DataGridRow)sender;
+            var translation = (Translation)row.DataContext;
+
+            if (string.IsNullOrEmpty(translation.TranslatedText))
+            {
+                translation.TranslatedText = translation.OriginalText;
+            }
         }
     }
 }
