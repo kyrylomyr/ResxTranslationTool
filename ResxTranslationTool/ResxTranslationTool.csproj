@@ -86,6 +86,7 @@
     <Compile Include="Models\Solution.cs" />
     <Compile Include="Models\Translation.cs" />
     <Compile Include="Services\ResxService.cs" />
+    <Compile Include="Services\TranslationFileService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

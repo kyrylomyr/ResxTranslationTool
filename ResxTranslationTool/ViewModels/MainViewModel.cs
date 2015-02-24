@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -111,7 +112,7 @@ namespace ResxTranslationTool.ViewModels
 
             var service = new ResxService(getSolutionPath(), ResourceFileMask);
 
-            Translations = new ObservableCollection<Translation>(service.GetTaggedResources(Tag));
+            Translations = new ObservableCollection<Translation>(service.GetResources(Tag));
         }
 
         private void updateSolution()
@@ -146,12 +147,8 @@ namespace ResxTranslationTool.ViewModels
             }
 
             // Save.
-            using (var writer = new StreamWriter(TranslationFileName))
-            {
-                var solution = new Solution { Translations = Translations.ToList() };
-                var serializer = new XmlSerializer(typeof(Solution));
-                serializer.Serialize(writer, solution);
-            }
+            var service = new TranslationFileService(TranslationFileName);
+            service.Save(Translations);
 
             MessageBox.Show("File saved successfully.", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -169,24 +166,20 @@ namespace ResxTranslationTool.ViewModels
                 return;
 
             // Read.
-            using (var reader = new StreamReader(dialog.FileName))
+            var service = new TranslationFileService(dialog.FileName);
+            try
             {
-                var serializer = new XmlSerializer(typeof(Solution));
-
-                try
-                {
-                    var solution = (Solution)serializer.Deserialize(reader);
-                    Translations = new ObservableCollection<Translation>(solution.Translations);
-                    TranslationFileName = dialog.FileName;
-                }
-                catch (InvalidOperationException)
-                {
-                    MessageBox.Show(
-                        "The translation file has incorrect data.",
-                        "Open error",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
+                var translations = service.Read();
+                Translations = new ObservableCollection<Translation>(translations);
+                TranslationFileName = dialog.FileName;
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show(
+                    "The translation file has incorrect data.",
+                    "Open error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 

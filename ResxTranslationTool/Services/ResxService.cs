@@ -28,7 +28,7 @@ namespace ResxTranslationTool.Services
             _fileMask = fileMask;
         }
 
-        public IEnumerable<Translation> GetTaggedResources(string translationTag = null)
+        public IEnumerable<Translation> GetResources(string translationTag = null)
         {
             if (!Directory.Exists(_path))
                 throw new DirectoryNotFoundException(string.Format("The directory '{0}' doesn't exist.", _path));
