@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ResxTranslationTool")]
+[assembly: AssemblyTitle("ResX Translation Tool")]
 [assembly: AssemblyDescription("A tool for quick and easy manual translation of strings in ResX files from all solution projects.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Kirill Miroshnichenko")]
-[assembly: AssemblyProduct("ResxTranslationTool")]
-[assembly: AssemblyCopyright("Copyright © Kirill Miroshnichenko 2014")]
+[assembly: AssemblyCompany("Kyrylo Myroshnychenko")]
+[assembly: AssemblyProduct("ResX Translation Tool")]
+[assembly: AssemblyCopyright("Copyright © Kyrylo Myroshnychenko 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]

@@ -110,6 +110,7 @@ namespace ResxTranslationTool.Services
                             continue;
                         
                         allEntries.Remove(key);
+                        changed = true;
 
                         logBuilder.AppendFormat("   - '{0}'\r\n", key);
                     }
