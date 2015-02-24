@@ -117,7 +117,7 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="5"
                   HorizontalAlignment="Center"
-                  Command="{Binding ScanSolutionCommand}"
+                  Command="{Binding SyncSolutionResourcesCommand}"
                   Padding="30,3">
             Synchronize Solution Resources
           </Button>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -111,9 +112,9 @@ namespace ResxTranslationTool.ViewModels
             if (string.IsNullOrEmpty(ResourceFileMask))
                 ResourceFileMask = DEFAULT_RESOURCE_FILE_MASK;
 
-            var service = new ResxService(getSolutionPath(), ResourceFileMask);
+            var service = new ResxService(getSolutionPath());
 
-            Translations = new ObservableCollection<Translation>(service.GetResources(Tag));
+            Translations = new ObservableCollection<Translation>(service.GetResources(ResourceFileMask, Tag));
             TranslationFileName = null;
         }
 
@@ -122,12 +123,15 @@ namespace ResxTranslationTool.ViewModels
             if (string.IsNullOrEmpty(SolutionFileName) && openSolutionFile() != true)
                 return;
 
-            var service = new ResxService(getSolutionPath(), ResourceFileMask);
+            var service = new ResxService(getSolutionPath());
             service.UpdateResources(Translations);
 
             // TODO: Refactor to not use MessageBox inside view model.
             MessageBox.Show(
-                "Solution resources updated successfully.", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
+                "Solution resources were updated successfully.",
+                "Update",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
         }
 
         private void saveTranslationFile()
@@ -155,7 +159,7 @@ namespace ResxTranslationTool.ViewModels
             service.Save(Translations);
 
             // TODO: Refactor to not use MessageBox inside view model.
-            MessageBox.Show("File saved successfully.", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("File was saved successfully.", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void openTranslationFile()
@@ -192,7 +196,25 @@ namespace ResxTranslationTool.ViewModels
 
         private void syncSolutionResources()
         {
+            if (string.IsNullOrEmpty(SolutionFileName) && openSolutionFile() != true)
+                return;
 
+            var service = new ResxService(getSolutionPath());
+            var log = service.SyncResources(Tag);
+
+            // TODO: Refactor to not use MessageBox inside view model.
+            var result = MessageBox.Show(
+                "Solution resources were synchronized successfully. Do you want to see the log?",
+                "Synchronization",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                var tempFileName = Path.Combine(Path.GetTempPath(), DateTime.Now.ToString("yyMMddHHmmss") + "_Sync.txt");
+                File.WriteAllText(tempFileName, log);
+                Process.Start(tempFileName);
+            }
         }
 
         private string getSolutionPath()
