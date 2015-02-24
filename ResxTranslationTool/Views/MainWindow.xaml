@@ -12,19 +12,20 @@
         d:DataContext="{d:DesignInstance vm:MainViewModel}"
         x:ClassModifier="internal"
         mc:Ignorable="d">
+  <Window.Resources>
+    <Style TargetType="{x:Type TextBox}">
+      <Style.Setters>
+        <Setter Property="Height" Value="24" />
+      </Style.Setters>
+    </Style>
+    <Style TargetType="{x:Type Button}">
+      <Style.Setters>
+        <Setter Property="Height" Value="24" />
+      </Style.Setters>
+    </Style>
+  </Window.Resources>
   <Grid Margin="10">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" />
-      <ColumnDefinition Width="5" />
-      <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="5" />
-      <ColumnDefinition Width="Auto" />
-    </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="5" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="5" />
       <RowDefinition Height="Auto" />
       <RowDefinition Height="10" />
       <RowDefinition Height="*" />
@@ -32,74 +33,232 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <!--  Solution file  -->
-    <TextBlock Grid.Row="0"
-               Grid.Column="0"
-               VerticalAlignment="Center">
-      Solution file:
-    </TextBlock>
-    <TextBox Grid.Row="0"
-             Grid.Column="2"
-             VerticalContentAlignment="Center"
-             Background="LightGray"
-             IsReadOnly="True"
-             Text="{Binding SolutionFileName}" />
-    <Button Grid.Row="0"
-            Grid.Column="4"
-            HorizontalAlignment="Left"
-            Command="{Binding OpenSolutionFileCommand}"
-            Padding="8,3">
-      ...
-    </Button>
+    <TabControl Grid.Row="0">
+      <TabItem Header="Translate">
+        <Grid Margin="5">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
 
-    <!--  Resource file mask  -->
-    <TextBlock Grid.Row="2"
-               Grid.Column="0"
-               VerticalAlignment="Center">
-      Resource file mask:
-    </TextBlock>
-    <TextBox Grid.Row="2"
-             Grid.Column="2"
-             VerticalContentAlignment="Center"
-             Text="{Binding ResourceFileMask}" />
-    <StackPanel Grid.Row="2"
-                Grid.Column="4"
-                Orientation="Horizontal">
-      <Button Command="{Binding ScanSolutionCommand}" Padding="8,3">Scan</Button>
-      <Button Margin="2,0,0,0"
-              Command="{Binding UpdateSolutionCommand}"
-              Padding="8,3">
-        Update
-      </Button>
-    </StackPanel>
+          <!--  Translation file  -->
+          <TextBlock Grid.Row="0"
+                     Grid.Column="0"
+                     VerticalAlignment="Center">
+            Translation file:
+          </TextBlock>
+          <TextBox Grid.Row="0"
+                   Grid.Column="2"
+                   VerticalContentAlignment="Center"
+                   Background="LightGray"
+                   IsReadOnly="True"
+                   Text="{Binding TranslationFileName}" />
 
-    <!--  Translation file  -->
-    <TextBlock Grid.Row="4"
-               Grid.Column="0"
-               VerticalAlignment="Center">
-      Translation file:
-    </TextBlock>
-    <TextBox Grid.Row="4"
-             Grid.Column="2"
-             VerticalContentAlignment="Center"
-             Background="LightGray"
-             IsReadOnly="True"
-             Text="{Binding TranslationFileName}" />
-    <StackPanel Grid.Row="4"
-                Grid.Column="4"
-                Orientation="Horizontal">
-      <Button Command="{Binding OpenTranslationFileCommand}" Padding="8,3">Open</Button>
-      <Button Margin="2,0,0,0"
-              Command="{Binding SaveTranslationFileCommand}"
-              Padding="8,3">
-        Save
-      </Button>
-    </StackPanel>
+          <!--  Open and Save  -->
+          <StackPanel Grid.Row="2"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3"
+                      HorizontalAlignment="Center"
+                      Orientation="Horizontal">
+            <Button Width="80"
+                    Command="{Binding OpenTranslationFileCommand}"
+                    Padding="8,3">
+              Open
+            </Button>
+            <Button Width="80"
+                    Margin="2,0,0,0"
+                    Command="{Binding SaveTranslationFileCommand}"
+                    Padding="8,3">
+              Save
+            </Button>
+          </StackPanel>
 
-    <!--  Grid  -->
-    <DataGrid Grid.Row="6"
-              Grid.Column="0"
-              Grid.ColumnSpan="5"
+        </Grid>
+      </TabItem>
+      <TabItem Header="Synchronize" />
+      <TabItem HorizontalContentAlignment="Stretch" Header="Scan and export">
+        <Grid Margin="5">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+
+          <!--  Solution file  -->
+          <TextBlock Grid.Row="0"
+                     Grid.Column="0"
+                     VerticalAlignment="Center">
+            Solution file:
+          </TextBlock>
+          <TextBox Grid.Row="0"
+                   Grid.Column="2"
+                   Grid.ColumnSpan="5"
+                   VerticalContentAlignment="Center"
+                   Background="LightGray"
+                   IsReadOnly="True"
+                   Text="{Binding SolutionFileName}" />
+
+          <Button Grid.Row="0"
+                  Grid.Column="8"
+                  HorizontalAlignment="Left"
+                  Command="{Binding OpenSolutionFileCommand}"
+                  Padding="8,3">
+            ...
+          </Button>
+
+          <!--  Resource file mask and resource tag  -->
+          <TextBlock Grid.Row="2"
+                     Grid.Column="0"
+                     VerticalAlignment="Center">
+            Resource file mask:
+          </TextBlock>
+          <TextBox Grid.Row="2"
+                   Grid.Column="2"
+                   VerticalContentAlignment="Center"
+                   Text="{Binding ResourceFileMask}" />
+
+          <TextBlock Grid.Row="2"
+                     Grid.Column="4"
+                     VerticalAlignment="Center">
+            Resource tag:
+          </TextBlock>
+          <TextBox Grid.Row="2"
+                   Grid.Column="6"
+                   VerticalContentAlignment="Center"
+                   Text="{Binding Tag}" />
+
+          <!--  Scan  -->
+          <Button Grid.Row="4"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="9"
+                  Width="140"
+                  HorizontalAlignment="Center"
+                  Command="{Binding ScanSolutionCommand}"
+                  Padding="8,3">
+            Scan Solution
+          </Button>
+
+          <!--  Translation file  -->
+          <TextBlock Grid.Row="6"
+                     Grid.Column="0"
+                     VerticalAlignment="Center">
+            Translation file:
+          </TextBlock>
+          <TextBox Grid.Row="6"
+                   Grid.Column="2"
+                   Grid.ColumnSpan="5"
+                   VerticalContentAlignment="Center"
+                   Background="LightGray"
+                   IsReadOnly="True"
+                   Text="{Binding TranslationFileName}" />
+
+          <Button Grid.Row="6"
+                  Grid.Column="8"
+                  HorizontalAlignment="Left"
+                  Command="{Binding SaveTranslationFileCommand}"
+                  Padding="8,3">
+            Save
+          </Button>
+
+        </Grid>
+      </TabItem>
+      <TabItem Header="Import and update">
+        <Grid Margin="5">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+
+          <!--  Solution file  -->
+          <TextBlock Grid.Row="0"
+                     Grid.Column="0"
+                     VerticalAlignment="Center">
+            Solution file:
+          </TextBlock>
+          <TextBox Grid.Row="0"
+                   Grid.Column="2"
+                   VerticalContentAlignment="Center"
+                   Background="LightGray"
+                   IsReadOnly="True"
+                   Text="{Binding SolutionFileName}" />
+
+          <Button Grid.Row="0"
+                  Grid.Column="4"
+                  HorizontalAlignment="Left"
+                  Command="{Binding OpenSolutionFileCommand}"
+                  Padding="8,3">
+            ...
+          </Button>
+
+          <!--  Translation file  -->
+          <TextBlock Grid.Row="2"
+                     Grid.Column="0"
+                     VerticalAlignment="Center">
+            Translation file:
+          </TextBlock>
+          <TextBox Grid.Row="2"
+                   Grid.Column="2"
+                   VerticalContentAlignment="Center"
+                   Background="LightGray"
+                   IsReadOnly="True"
+                   Text="{Binding TranslationFileName}" />
+
+          <Button Grid.Row="2"
+                  Grid.Column="4"
+                  HorizontalAlignment="Left"
+                  Command="{Binding OpenTranslationFileCommand}"
+                  Padding="8,3">
+            Open
+          </Button>
+
+          <!--  Update  -->
+          <Button Grid.Row="4"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="5"
+                  Width="140"
+                  HorizontalAlignment="Center"
+                  Command="{Binding UpdateSolutionCommand}"
+                  Padding="8,3">
+            Update Solution
+          </Button>
+
+        </Grid>
+      </TabItem>
+    </TabControl>
+
+    <!--  Translations  -->
+    <DataGrid Grid.Row="2"
               AlternatingRowBackground="GhostWhite"
               AutoGenerateColumns="False"
               HeadersVisibility="Column"
@@ -124,9 +283,7 @@
     </DataGrid>
 
     <!--  Summary  -->
-    <Grid Grid.Row="8"
-          Grid.Column="0"
-          Grid.ColumnSpan="5">
+    <Grid Grid.Row="4">
       <TextBlock>
         <Run Text="Total entries:" />
         <Run Text="{Binding Translations.Count, Mode=OneWay}" />

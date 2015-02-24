@@ -111,6 +111,7 @@ namespace ResxTranslationTool.ViewModels
             var service = new ResxService(getSolutionPath(), ResourceFileMask);
 
             Translations = new ObservableCollection<Translation>(service.GetResources(Tag));
+            TranslationFileName = null;
         }
 
         private void updateSolution()
