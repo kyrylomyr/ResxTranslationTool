@@ -5,7 +5,7 @@ namespace ResxTranslationTool.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    internal partial class MainWindow
     {
         public MainWindow()
         {

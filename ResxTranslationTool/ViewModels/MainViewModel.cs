@@ -15,7 +15,7 @@ using ResxTranslationTool.Models;
 
 namespace ResxTranslationTool.ViewModels
 {
-    public class MainViewModel : BindableBase
+    internal sealed class MainViewModel : BindableBase
     {
         private const string DEFAULT_RESOURCE_FILE_MASK = "*.resx";
 
@@ -35,7 +35,7 @@ namespace ResxTranslationTool.ViewModels
             SaveTranslationFileCommand = new DelegateCommand(saveTranslationFile);
             OpenTranslationFileCommand = new DelegateCommand(openTranslationFile);
 
-            ResourceFileMask = "*.da.resx";
+            ResourceFileMask = "*.de.resx";
             Translations = new ObservableCollection<Translation>();
         }
 
@@ -133,7 +133,8 @@ namespace ResxTranslationTool.ViewModels
                                {
                                    Id = (string)entry.Key,
                                    FileName = relativeFileName,
-                                   OriginalText = value
+                                   OriginalText = value,
+                                   Comment = node.Comment
                                });
                 }
             }

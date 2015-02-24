@@ -7,9 +7,11 @@
         Title="ResX Translation Tool"
         Width="525"
         Height="350"
+        Icon="/ResxTranslationTool;component/App.ico"
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance vm:MainViewModel}"
-        mc:Ignorable="d" Icon="/ResxTranslationTool;component/App.ico">
+        x:ClassModifier="internal"
+        mc:Ignorable="d">
   <Grid Margin="10">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
