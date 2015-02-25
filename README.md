@@ -12,6 +12,10 @@ Features:
 
 Download the latest version: [ResX Translation Tool 1.1](https://github.com/kirmir/ResxTranslationTool/releases/tag/v.1.1).
 
+## System Requirements
+
+* .NET Framework 4.5
+
 ## Documentation
 
 You can find all information about the tool, when and how to use it, in the [project's wiki](https://github.com/kirmir/ResxTranslationTool/wiki).
