@@ -1,4 +1,4 @@
-# ResxTranslationTool
+# ResX Translation Tool
 
 The tool for localization, updating and synchronization of ResX files.
 
