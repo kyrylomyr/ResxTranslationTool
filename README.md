@@ -10,4 +10,8 @@ Features:
 
 ## Releases
 
-Download ResX Translation Tool 1.1.
+Download the latest version: [ResX Translation Tool 1.1](https://github.com/kirmir/ResxTranslationTool/releases/tag/v.1.1).
+
+## Documentation
+
+You can find all information about the tool, when and how to use it, in the [project's wiki](https://github.com/kirmir/ResxTranslationTool/wiki).
