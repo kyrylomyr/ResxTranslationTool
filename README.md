@@ -18,4 +18,4 @@ Download the latest version: [ResX Translation Tool 1.1](https://github.com/kirm
 
 ## Documentation
 
-You can find all information about the tool, when and how to use it, in the [project's wiki](https://github.com/kirmir/ResxTranslationTool/wiki).
+You can find all information about the tool, when and how to use it, in the [project's wiki](https://github.com/kirmir/ResxTranslationTool/wiki#documentation).
