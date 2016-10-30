@@ -2,6 +2,8 @@
 
 The tool for localization, updating and synchronization of ResX files.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/gdvfeu719dt7rdtb?svg=true)](https://ci.appveyor.com/project/kirmir/resxtranslationtool)
+
 Features:
 * Synchronization of text resources between ResX files with different cultures.
 * Exporting text resources which should be translated.
